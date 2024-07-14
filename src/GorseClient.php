@@ -16,7 +16,7 @@ class GorseClient
     public function __construct(private string $endpoint, private readonly ?string $apiKey, private readonly ?array $options)
     {
         $this->endpoint = rtrim($this->endpoint, '/');
-        if (!Str::endsWith('api')) {
+        if (!Str::endsWith($this->endpoint, 'api')) {
             $this->endpoint = sprintf('%s/api', $this->endpoint);
         }
         $this->client = Http::baseUrl($this->endpoint)
@@ -105,6 +105,11 @@ class GorseClient
                 'offset' => $offset,
             ])
         );
+    }
+
+    protected function getOption($name)
+    {
+        return $this->options[$name];
     }
 
     protected function getOptions(): array
