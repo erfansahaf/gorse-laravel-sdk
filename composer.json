@@ -12,10 +12,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Erfansahaf\\GorsLaravelSDK\\GorseServiceProvider"
+        "Erfansahaf\\GorseLaravel\\GorseServiceProvider"
       ],
       "aliases": {
-        "Gorse": "Erfansahaf\\GorsLaravelSDK\\Facades\\Gorse"
+        "Gorse": "Erfansahaf\\GorseLaravel\\Facades\\Gorse"
       }
     }
   },
