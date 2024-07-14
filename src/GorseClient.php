@@ -3,6 +3,7 @@
 namespace Erfansahaf\GorseLaravel;
 
 use Carbon\Carbon;
+use Erfansahaf\GorseLaravel\Entities\Feedback;
 use Erfansahaf\GorseLaravel\Entities\Item;
 use Erfansahaf\GorseLaravel\Entities\User;
 use Illuminate\Http\Client\PendingRequest;
@@ -29,7 +30,7 @@ class GorseClient
         }
     }
 
-    public function createUser(User $user)
+    public function isertUser(User $user)
     {
         return $this->client->post(
             'user',
@@ -52,7 +53,7 @@ class GorseClient
         );
     }
 
-    public function createItem(Item $item)
+    public function insertItem(Item $item)
     {
         return $this->client->post(
             'item',
@@ -81,7 +82,30 @@ class GorseClient
         );
     }
 
-    public function getUserRecommendation(string $userId, ?string $writeBackType, ?string $writeBackDelay, ?int $n, ?int $offset)
+    /**
+     * @param  Feedback[]  $feedbacks
+     */
+    public function upsertFeedback(array $feedbacks)
+    {
+        $payload = [];
+        /** @var Feedback $feedback */
+        foreach ($feedbacks as $feedback) {
+            $payload[] = $this->unsetNullElements([
+                'ItemId' => $feedback->getItemId(),
+                'UserId' => $feedback->getUserId(),
+                'FeedbackType' => $feedback->getType(),
+                'Timestamp' => $feedback->getTimestampIso8601(),
+                'Comment' => $feedback->getComment(),
+            ]);
+        }
+
+        return $this->client->put(
+            'feedback',
+            $payload
+        );
+    }
+
+    public function getUserRecommendation(string $userId, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null, ?int $offset = null)
     {
         return $this->client->get(
             sprintf('recommend/%s', $userId),
@@ -94,7 +118,7 @@ class GorseClient
         );
     }
 
-    public function getUserRecommendationByCategory(string $userId, string $category, ?string $writeBackType, ?string $writeBackDelay, ?int $n, ?int $offset)
+    public function getUserRecommendationByCategory(string $userId, string $category, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null, ?int $offset = null)
     {
         return $this->client->get(
             sprintf('recommend/%s/%s', $userId, $category),

@@ -10,7 +10,7 @@ class User
 
     public function getId(): string
     {
-        return $this->userId;
+        return $this->id;
     }
 
     public function getLabels(): ?array
