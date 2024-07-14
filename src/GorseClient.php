@@ -13,7 +13,7 @@ class GorseClient
 {
     private PendingRequest $client;
 
-    public function __construct(private readonly string $endpoint, private readonly ?string $apiKey, private readonly ?array $options)
+    public function __construct(private string $endpoint, private readonly ?string $apiKey, private readonly ?array $options)
     {
         $this->endpoint = rtrim($this->endpoint, '/');
         if (!Str::endsWith('api')) {
