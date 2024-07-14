@@ -1,6 +1,6 @@
 <?php
 
-namespace Erfansahaf\GorseLaravelSDK\Exceptions;
+namespace Erfansahaf\GorseLaravel\Exceptions;
 
 use Exception;
 

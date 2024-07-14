@@ -1,8 +1,8 @@
 <?php
 
-namespace Erfansahaf\GorseLaravelSDK\Facades;
+namespace Erfansahaf\GorseLaravel\Facades;
 
-use Erfansahaf\GorseLaravelSDK\GorseClient;
+use Erfansahaf\GorseLaravel\GorseClient;
 use Illuminate\Support\Facades\Facade;
 
 /**

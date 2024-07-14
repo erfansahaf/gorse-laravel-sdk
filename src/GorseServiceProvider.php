@@ -1,9 +1,9 @@
 <?php
 
-namespace Erfansahaf\GorseLaravelSDK;
+namespace Erfansahaf\GorseLaravel;
 
 
-use Erfansahaf\GorseLaravelSDK\Exceptions\GorseException;
+use Erfansahaf\GorseLaravel\Exceptions\GorseException;
 use Illuminate\Support\ServiceProvider;
 
 class GorseServiceProvider extends ServiceProvider

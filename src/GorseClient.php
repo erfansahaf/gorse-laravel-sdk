@@ -1,6 +1,6 @@
 <?php
 
-namespace Erfansahaf\GorseLaravelSDK;
+namespace Erfansahaf\GorseLaravel;
 
 use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;

@@ -6,7 +6,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Erfansahaf\\GorseLaravelSdk\\": "src/"
+      "Erfansahaf\\GorseLaravel\\": "src/"
     }
   },
   "extra": {
