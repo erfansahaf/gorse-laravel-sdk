@@ -2,6 +2,7 @@
 
 namespace Erfansahaf\GorseLaravelSDK;
 
+use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
@@ -11,19 +12,51 @@ class GorseClient
 
     public function __construct(private readonly string $endpoint, private readonly ?string $apiKey, private readonly ?array $options)
     {
-        $client = Http::baseUrl($baseURL)
+        $this->client = Http::baseUrl($baseURL)
             ->asJson()
             ->acceptJson();
         if ($this->apiKey) {
-            $client->withHeaders(['X-API-Key' => $this->apiKey]);
+            $this->client->withHeaders(['X-API-Key' => $this->apiKey]);
         }
         if ($connectTimeout = $this->getOption('connect_timeout')) {
-            $client->connectTimeout($connectTimeout);
+            $this->client->connectTimeout($connectTimeout);
         }
         if ($timeout = $this->getOption('timeout')) {
-            $client->timeout($timeout);
+            $this->client->timeout($timeout);
         }
-        $this->client = $client;
+    }
+
+    public function createUser(string $userId, array $labels, string $comment = "")
+    {
+        return $this->client->post('user', [
+            'UserId' => $userId,
+            'Labels' => $labels,
+            "Comment" => $comment,
+        ]);
+    }
+
+    public function updateUser(string $userId, array $labels, string $comment = "")
+    {
+        return $this->client->patch(sprintf('user/%s', $userId), [
+            'Labels' => $labels,
+            "Comment" => $comment,
+        ]);
+    }
+
+    public function createItem(string $itemId, array $categories, array $labels, ?Carbon $timestamp = null, bool $isHidden = false, string $comment = "")
+    {
+        if ($timestamp === null) {
+            $timestamp = now();
+        }
+
+        return $this->client->post('item', [
+            "ItemId" => $itemId,
+            "Categories" => $categories,
+            "Comment" => $comment,
+            "IsHidden" => $isHidden,
+            "Labels" => $labels,
+            "Timestamp" => $timestamp->toIso8601String(),
+        ]);
     }
 
     public function getUserRecommendation(string $userId, ?string $writeBackType, ?string $writeBackDelay, ?int $n, ?int $offset)
